@@ -2,32 +2,59 @@ name: Extract Project Archive
 
 "on":
   workflow_dispatch:
+
 permissions:
   contents: write
 
 jobs:
   extract:
+    name: Extract S1 Project
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Verify archive exists
+        run: |
+          if [ ! -f "al-jihad-S1-updated-r2.zip" ]; then
+            echo "ERROR: Project archive not found!"
+            exit 1
+          fi
+
       - name: Extract ZIP archive
         run: |
           mkdir -p /tmp/aljihad
           unzip -q al-jihad-S1-updated-r2.zip -d /tmp/aljihad
 
-      - name: Copy project files
+      - name: Verify extracted project folder
+        run: |
+          if [ ! -d "/tmp/aljihad/al-jihad" ]; then
+            echo "ERROR: Expected al-jihad folder not found!"
+            echo "Extracted contents:"
+            ls -la /tmp/aljihad
+            exit 1
+          fi
+
+      - name: Copy project files to repository root
         run: |
           cp -a /tmp/aljihad/al-jihad/. .
+
+      - name: Verify project files
+        run: |
+          echo "Project files extracted successfully."
+          ls -la
 
       - name: Commit extracted files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
           git add -A
-          git diff --cached --quiet || (
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
             git commit -m "Extract S1 project archive"
             git push
-          )
+          fi
