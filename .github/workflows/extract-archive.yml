@@ -17,33 +17,29 @@ jobs:
 
       - name: Verify archive exists
         run: |
-          if [ ! -f "al-jihad-S1-updated-r2.zip" ]; then
-            echo "ERROR: Project archive not found!"
-            exit 1
-          fi
+          test -f "al-jihad-S1-updated-r2.zip"
 
       - name: Extract ZIP archive
         run: |
           mkdir -p /tmp/aljihad
           unzip -q al-jihad-S1-updated-r2.zip -d /tmp/aljihad
 
-      - name: Verify extracted project folder
+      - name: Verify project folder
         run: |
-          if [ ! -d "/tmp/aljihad/al-jihad" ]; then
-            echo "ERROR: Expected al-jihad folder not found!"
-            echo "Extracted contents:"
-            ls -la /tmp/aljihad
-            exit 1
-          fi
+          test -d "/tmp/aljihad/al-jihad"
 
-      - name: Copy project files to repository root
+      - name: Copy project files safely
         run: |
-          cp -a /tmp/aljihad/al-jihad/. .
+          rsync -a --exclude='/.github/workflows/***' \
+            /tmp/aljihad/al-jihad/ ./
 
-      - name: Verify project files
+      - name: Verify extracted files
         run: |
-          echo "Project files extracted successfully."
-          ls -la
+          test -f "package.json"
+          test -f "package-lock.json"
+          test -d "apps"
+          test -d "packages"
+          echo "Project extraction verified."
 
       - name: Commit extracted files
         run: |
