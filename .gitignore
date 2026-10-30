@@ -1,0 +1,23 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+*.tsbuildinfo
+
+# Apps Script: real project binding is secret per-developer, never committed
+apps/script/.clasp.json
+
+# secrets
+.env
+.env.*
+!.env.example
+
+# OS / editor
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+
+# never commit: exports, backups, customer data (INV-15 / §6 من PHASE 1)
+*.export.json
+*backup*.zip

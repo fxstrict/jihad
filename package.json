@@ -1,0 +1,35 @@
+{
+  "name": "al-jihad",
+  "private": true,
+  "version": "0.0.1",
+  "description": "الجهاد — Teacher Management & Private Tutoring Platform (offline-first PWA + Apps Script backend)",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build:domain": "npm run build --workspace=packages/domain",
+    "dev:web": "npm run dev --workspace=apps/web",
+    "dev:portal": "npm run dev --workspace=apps/portal",
+    "build:web": "npm run build:domain && npm run build --workspace=apps/web",
+    "build:portal": "npm run build:domain && npm run build --workspace=apps/portal",
+    "build:script": "npm run build:domain && npm run build --workspace=apps/script",
+    "test": "vitest run",
+    "lint:boundaries": "depcruise --config .dependency-cruiser.cjs --output-type err apps packages",
+    "typecheck": "npm run typecheck --workspace=packages/domain && tsc --noEmit -p apps/web/tsconfig.json && tsc --noEmit -p apps/portal/tsconfig.json && npm run typecheck --workspace=apps/script",
+    "lint:eslint": "eslint apps/script/src",
+    "lint": "npm run lint:boundaries && npm run lint:eslint",
+    "build": "npm run build:web && npm run build:portal && npm run build:script",
+    "verify:pwa": "node scripts/verify-pwa-assets.mjs apps/web/dist && node scripts/verify-pwa-assets.mjs apps/portal/dist"
+  },
+  "devDependencies": {
+    "@typescript-eslint/parser": "^8.72.1",
+    "dependency-cruiser": "^16.0.0",
+    "eslint": "^10.13.0",
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  }
+}

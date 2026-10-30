@@ -1,0 +1,16 @@
+{
+  "name": "@al-jihad/script",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "typecheck": "tsc --noEmit",
+    "push": "npm run build && clasp push --rootDir dist"
+  },
+  "devDependencies": {
+    "esbuild": "^0.23.0",
+    "typescript": "^5.5.0",
+    "@google/clasp": "^2.4.2"
+  }
+}

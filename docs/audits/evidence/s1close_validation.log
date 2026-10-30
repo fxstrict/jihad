@@ -1,0 +1,214 @@
+node v22.23.4 npm 10.9.9 2026-10-29T07:09:33Z
+=== npm ci --no-audit --no-fund
+npm warn deprecated google-p12-pem@3.1.4: Package is no longer maintained
+npm warn deprecated uuid@8.3.2: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
+npm warn deprecated glob@11.1.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+
+added 751 packages in 17s
+exit=0
+=== npm run typecheck
+
+> al-jihad@0.0.1 typecheck
+> npm run typecheck --workspace=packages/domain && tsc --noEmit -p apps/web/tsconfig.json && tsc --noEmit -p apps/portal/tsconfig.json && npm run typecheck --workspace=apps/script
+
+
+> @al-jihad/domain@0.0.1 typecheck
+> tsc --noEmit -p tsconfig.json
+
+
+> @al-jihad/script@0.0.1 typecheck
+> tsc --noEmit
+
+exit=0
+=== npm run lint:boundaries
+
+> al-jihad@0.0.1 lint:boundaries
+> depcruise --config .dependency-cruiser.cjs --output-type err apps packages
+
+
+✔ no dependency violations found (38 modules, 43 dependencies cruised)
+
+exit=0
+=== npm run lint:eslint
+
+> al-jihad@0.0.1 lint:eslint
+> eslint apps/script/src
+
+exit=0
+=== npm test
+
+> al-jihad@0.0.1 test
+> vitest run
+
+[33mThe CJS build of Vite's Node API is deprecated. See https://vite.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated for more details.[39m
+
+ RUN  v2.1.9 /tmp/claude-0/-home-claude/b9e51382-9e44-5146-b1b1-8c7db43b8721/scratchpad/val2
+
+ ✓ tests/contract/studentRules.test.ts (37 tests) 23ms
+ ✓ tests/contract/domain.test.ts (11 tests) 8ms
+ ✓ tests/lint/inv18.test.ts (13 tests) 680ms
+   ✓ INV-18: Google services only inside L1 (repositories/adapters) > rejects direct SpreadsheetApp in a service file 556ms
+
+ Test Files  3 passed (3)
+      Tests  61 passed (61)
+   Start at  10:09:59
+   Duration  1.87s (transform 228ms, setup 0ms, collect 380ms, tests 711ms, environment 1ms, prepare 210ms)
+
+exit=0
+=== npm run build:domain
+
+> al-jihad@0.0.1 build:domain
+> npm run build --workspace=packages/domain
+
+
+> @al-jihad/domain@0.0.1 build
+> node build.esm.mjs
+
+domain: ESM build done -> dist/esm
+exit=0
+=== npm run build:web
+
+> al-jihad@0.0.1 build:web
+> npm run build:domain && npm run build --workspace=apps/web
+
+
+> al-jihad@0.0.1 build:domain
+> npm run build --workspace=packages/domain
+
+
+> @al-jihad/domain@0.0.1 build
+> node build.esm.mjs
+
+domain: ESM build done -> dist/esm
+
+> @al-jihad/web@0.0.1 build
+> tsc --noEmit && vite build
+
+vite v5.4.21 building for production...
+transforming...
+✓ 22 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/registerSW.js               0.13 kB
+dist/manifest.webmanifest        0.44 kB
+dist/index.html                  0.74 kB │ gzip: 0.42 kB
+dist/assets/index-ChI41W12.css   5.61 kB │ gzip: 1.86 kB
+dist/assets/index-BVTeBcFw.js   17.32 kB │ gzip: 7.57 kB
+✓ built in 340ms
+
+PWA v0.20.5
+mode      generateSW
+precache  14 entries (67.94 KiB)
+files generated
+  dist/sw.js
+  dist/workbox-9c191d2f.js
+exit=0
+=== npm run build:portal
+
+> al-jihad@0.0.1 build:portal
+> npm run build:domain && npm run build --workspace=apps/portal
+
+
+> al-jihad@0.0.1 build:domain
+> npm run build --workspace=packages/domain
+
+
+> @al-jihad/domain@0.0.1 build
+> node build.esm.mjs
+
+domain: ESM build done -> dist/esm
+
+> @al-jihad/portal@0.0.1 build
+> tsc --noEmit && vite build
+
+vite v5.4.21 building for production...
+transforming...
+✓ 5 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/registerSW.js              0.13 kB
+dist/manifest.webmanifest       0.45 kB
+dist/index.html                 0.64 kB │ gzip: 0.42 kB
+dist/assets/index-CojYS0Rn.js  11.59 kB │ gzip: 5.02 kB
+✓ built in 177ms
+
+PWA v0.20.5
+mode      generateSW
+precache  8 entries (12.12 KiB)
+files generated
+  dist/sw.js
+  dist/workbox-9c191d2f.js
+exit=0
+=== npm run build:script
+
+> al-jihad@0.0.1 build:script
+> npm run build:domain && npm run build --workspace=apps/script
+
+
+> al-jihad@0.0.1 build:domain
+> npm run build --workspace=packages/domain
+
+
+> @al-jihad/domain@0.0.1 build
+> node build.esm.mjs
+
+domain: ESM build done -> dist/esm
+
+> @al-jihad/script@0.0.1 build
+> node build.mjs
+
+script: build done -> dist/ (Server.js, Entry.js, appsscript.json)
+exit=0
+=== npm run verify:pwa
+
+> al-jihad@0.0.1 verify:pwa
+> node scripts/verify-pwa-assets.mjs apps/web/dist && node scripts/verify-pwa-assets.mjs apps/portal/dist
+
+verify-pwa-assets OK: /tmp/claude-0/-home-claude/b9e51382-9e44-5146-b1b1-8c7db43b8721/scratchpad/val2/apps/web/dist base=/ icons=[192x192, 512x512] refs=6
+verify-pwa-assets OK: /tmp/claude-0/-home-claude/b9e51382-9e44-5146-b1b1-8c7db43b8721/scratchpad/val2/apps/portal/dist base=/ icons=[192x192, 512x512] refs=5
+exit=0
+=== env VITE_BASE_PATH=/al-jihad/ npm run build:web
+
+> al-jihad@0.0.1 build:web
+> npm run build:domain && npm run build --workspace=apps/web
+
+
+> al-jihad@0.0.1 build:domain
+> npm run build --workspace=packages/domain
+
+
+> @al-jihad/domain@0.0.1 build
+> node build.esm.mjs
+
+domain: ESM build done -> dist/esm
+
+> @al-jihad/web@0.0.1 build
+> tsc --noEmit && vite build
+
+vite v5.4.21 building for production...
+transforming...
+✓ 22 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/registerSW.js               0.15 kB
+dist/manifest.webmanifest        0.46 kB
+dist/index.html                  0.80 kB │ gzip: 0.43 kB
+dist/assets/index-ChI41W12.css   5.61 kB │ gzip: 1.86 kB
+dist/assets/index-BVTeBcFw.js   17.32 kB │ gzip: 7.57 kB
+✓ built in 422ms
+
+PWA v0.20.5
+mode      generateSW
+precache  14 entries (68.03 KiB)
+files generated
+  dist/sw.js
+  dist/workbox-9c191d2f.js
+exit=0
+=== node scripts/verify-pwa-assets.mjs apps/web/dist /al-jihad/
+verify-pwa-assets OK: /tmp/claude-0/-home-claude/b9e51382-9e44-5146-b1b1-8c7db43b8721/scratchpad/val2/apps/web/dist base=/al-jihad/ icons=[192x192, 512x512] refs=6
+exit=0
+=== npm install --package-lock-only --no-audit --no-fund
+
+up to date in 925ms
+exit=0
+package-lock.json: OK

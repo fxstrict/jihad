@@ -1,0 +1,21 @@
+{
+  "name": "@al-jihad/domain",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "./dist/esm/index.js",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./dist/esm/index.js"
+    }
+  },
+  "scripts": {
+    "build": "node build.esm.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "devDependencies": {
+    "esbuild": "^0.23.0"
+  }
+}
